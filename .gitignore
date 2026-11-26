@@ -1,0 +1,10 @@
+node_modules/
+dist/
+frontend/coverage/
+backend/coverage.out
+backend/bin/
+*.exe
+.env
+.DS_Store
+.idea/
+.vscode/

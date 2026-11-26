@@ -1,0 +1,228 @@
+:root {
+  --bg: #f1f5f9;
+  --surface: #ffffff;
+  --surface-2: #e2e8f0;
+  --text: #0f172a;
+  --muted: #64748b;
+  --accent: #4f46e5;
+  --accent-text: #ffffff;
+  --danger: #dc2626;
+  --display-bg: #0f172a;
+  --display-text: #f8fafc;
+  --radius: 14px;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #020617;
+    --surface: #0f172a;
+    --surface-2: #1e293b;
+    --text: #f1f5f9;
+    --muted: #94a3b8;
+    --accent: #818cf8;
+    --accent-text: #0f172a;
+    --danger: #f87171;
+    --display-bg: #1e293b;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.app {
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 32px 16px;
+}
+
+h1 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 16px;
+  color: var(--muted);
+}
+
+.calculator {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: 0 10px 30px rgb(15 23 42 / 0.12);
+}
+
+.display {
+  background: var(--display-bg);
+  color: var(--display-text);
+  border-radius: 10px;
+  padding: 20px 16px;
+  min-height: 88px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+  overflow-wrap: anywhere;
+}
+
+.display-value {
+  font-size: 2.25rem;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  transition: opacity 0.15s;
+}
+.display-value.loading { opacity: 0.4; }
+
+.display-error {
+  margin: 0;
+  color: #fca5a5;
+  font-size: 1rem;
+  text-align: right;
+}
+
+.operations {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+  border: none;
+  border-radius: 10px;
+}
+button:focus-visible, input:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.op-button {
+  background: var(--surface-2);
+  color: var(--text);
+  padding: 12px 0;
+  font-size: 1.1rem;
+  min-height: 44px;
+}
+.op-button.active {
+  background: var(--accent);
+  color: var(--accent-text);
+}
+
+.fields {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1fr 1fr;
+}
+.fields.arity-1 { grid-template-columns: 1fr; }
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.field label {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.field input {
+  font: inherit;
+  font-size: 1.1rem;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--surface-2);
+  background: var(--bg);
+  color: var(--text);
+  width: 100%;
+}
+.field input[aria-invalid='true'] { border-color: var(--danger); }
+.field-error {
+  color: var(--danger);
+  font-size: 0.8rem;
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 8px;
+  margin-top: 16px;
+}
+.primary, .secondary {
+  padding: 14px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+.primary { background: var(--accent); color: var(--accent-text); }
+.primary:disabled { opacity: 0.6; cursor: progress; }
+.secondary { background: var(--surface-2); color: var(--text); }
+
+.history {
+  margin-top: 20px;
+  border-top: 1px solid var(--surface-2);
+  padding-top: 12px;
+}
+.history header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.history h2 {
+  font-size: 0.9rem;
+  margin: 0;
+  color: var(--muted);
+}
+.history ol {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+}
+.history li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 0;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.history-expr { color: var(--muted); }
+.history-result { font-weight: 600; }
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 8px;
+}
+.page-button {
+  background: var(--surface-2);
+  color: var(--text);
+  padding: 8px 12px;
+  min-height: 36px;
+  font-size: 0.85rem;
+}
+.page-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.page-info {
+  font-size: 0.8rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.link-button {
+  background: none;
+  color: var(--accent);
+  padding: 4px 8px;
+}
+
+@media (max-width: 360px) {
+  .operations { grid-template-columns: repeat(4, 1fr); }
+  .fields { grid-template-columns: 1fr; }
+}
